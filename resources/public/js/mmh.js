@@ -2,16 +2,16 @@
  * Created by spkerkela on 01/02/15.
  */
 
-var CommentBox = React.createClass({displayName: 'CommentBox',
+var Content = React.createClass({displayName: 'CommentBox',
     render: function() {
         return (
-            React.createElement('h1', {className: "commentBox"},
-                "Welcome to MMH."
-            )
+            <h1 className="content">
+                Welcome to MMH.
+            </h1>
         );
     }
 });
 React.render(
-    React.createElement(CommentBox, null),
+    <Content/>,
     document.getElementById('content')
 );
