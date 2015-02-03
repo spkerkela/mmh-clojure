@@ -2,13 +2,20 @@
   (:require [compojure.core :refer :all]
             [compojure.route :as route]
             [ring.util.response :as resp]
-            [ring.middleware.defaults :refer [wrap-defaults site-defaults]]))
+            [clojure.data.json :as json]
+            [ring.middleware.defaults :refer [wrap-defaults site-defaults]]
+            [mmh-clojure.db :as db]))
+
+(extend-type java.sql.Timestamp
+  json/JSONWriter
+  (-write [date out]
+    (json/-write (str date) out)))
 
 (defroutes app-routes
   (GET "/" [] (resp/redirect "index.html"))
   (context "/movies" []
-    (GET "/" [] "All movies")
-    (GET "/:id{[0-9]+}" [id] (str "Movie " id))
+    (GET "/" [] (json/write-str (db/get-movies)))
+    (GET "/:id{[0-9]+}" [id] (json/write-str (db/get-movie (Integer/parseInt id))))
     (POST "/:id{[0-9]+}" [id] (str "Create movie " id))
     (PUT "/:id{[0-9]+}" [id] (str "Update movie " id))
     (DELETE "/:id{[0-9]+}" [id] (str "Delete movie " id)))
