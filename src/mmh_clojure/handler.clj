@@ -3,6 +3,7 @@
             [compojure.route :as route]
             [ring.util.response :as resp]
             [clojure.data.json :as json]
+            [clojure.java.io :as io]
             [ring.middleware.defaults :refer [wrap-defaults site-defaults]]
             [mmh-clojure.db :as db]))
 
@@ -12,16 +13,18 @@
     (json/-write (str date) out)))
 
 (defroutes app-routes
-  (GET "/" [] (resp/redirect "index.html"))
+  (GET "/" [] (io/resource "public/index.html"))
   (context "/movies" []
     (GET "/" [] (json/write-str (db/get-movies)))
     (GET "/:id{[0-9]+}" [id] (json/write-str (db/get-movie (Integer/parseInt id))))
+    (GET "/:id{[0-9]+}/reviews" [id] (json/write-str (db/reviews-of-movie (Integer/parseInt id))))
     (POST "/:id{[0-9]+}" [id] (str "Create movie " id))
     (PUT "/:id{[0-9]+}" [id] (str "Update movie " id))
     (DELETE "/:id{[0-9]+}" [id] (str "Delete movie " id)))
   (context "/users" []
-    (GET "/" [] "All users")
-    (GET "/:id{[0-9]+}" [id] (str "User " id))
+    (GET "/" [] (json/write-str (db/get-users)))
+    (GET "/:id{[0-9]+}" [id] (json/write-str (db/get-user (Integer/parseInt id))))
+    (GET "/:id{[0-9]+}/reviews" [id] (json/write-str (db/reviews-by-user (Integer/parseInt id))))
     (POST "/:id{[0-9]+}" [id] (str "Create user " id))
     (PUT "/:id{[0-9]+}" [id] (str "Update user " id))
     (DELETE "/:id{[0-9]+}" [id] (str "Delete user " id)))
@@ -35,4 +38,5 @@
   (route/not-found "Not Found"))
 
 (def app
-  (wrap-defaults app-routes site-defaults))
+  (-> app-routes
+    (wrap-defaults site-defaults)))

@@ -7,6 +7,34 @@
               :user "spkerkela"}))
 
 (defqueries "sql/movies.sql")
+(defqueries "sql/users.sql")
+(defqueries "sql/reviews.sql")
+(defqueries "sql/marathons.sql")
+
+;; -- User functions
+
+(defn get-user [id]
+  (first (get-user-by-id @db-spec id)))
+
+(defn get-users []
+  (all-users @db-spec))
+
+(defn create-user [user]
+  (create-user!
+    @db-spec
+    (:username user)
+    (:email user)
+    (:password_digest user)))
+
+(defn delete-user [id]
+  (delete-user! @db-spec id))
+
+(defn update-user [id user]
+  (update-movie! @db-spec
+    (:username user)
+    (:email user)
+    (:password_digest user)
+    id))
 
 ;; -- Movie functions
 
@@ -50,3 +78,22 @@
     (:imdb_id movie)
     (:poster_url movie)
     id))
+
+;; -- Review functions
+
+(defn reviews-by-user [user-id]
+  (reviews-by-user-id @db-spec user-id))
+
+(defn reviews-of-movie [movie-id]
+  (reviews-by-movie-id @db-spec movie-id))
+
+;; -- Marathon functions
+
+(defn marathons []
+  (all-marathons @db-spec))
+
+(defn users-in-marathon [marathon-id]
+  (marathon-participants @db-spec marathon-id))
+
+(defn movies-in-marathon [marathon-id]
+  (marathon-movies @db-spec marathon-id))
