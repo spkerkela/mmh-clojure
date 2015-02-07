@@ -4,7 +4,7 @@
 (def db-spec (atom {:classname "org.postgresql.Driver"
               :subprotocol "postgresql"
               :subname "//localhost:5432/mmh"
-              :user "spkerkela"}))
+              :user (System/getenv "USER")}))
 
 (defqueries "sql/movies.sql")
 (defqueries "sql/users.sql")
