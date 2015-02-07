@@ -62,8 +62,21 @@ CREATE TABLE marathon_participants(
   marathon_id INTEGER NOT NULL,
   user_id INTEGER NOT NULL,
   CONSTRAINT user_exists FOREIGN KEY (user_id) REFERENCES users(id)
-  ON DELETE CASCADE ON UPDATE CASCADE ,
+  ON DELETE CASCADE
+  ON UPDATE CASCADE ,
   CONSTRAINT movie_exists FOREIGN KEY (marathon_id) REFERENCES marathons(id)
-  ON DELETE CASCADE ON UPDATE CASCADE,
+  ON DELETE CASCADE
+  ON UPDATE CASCADE,
   CONSTRAINT same_user_once_per_marathon UNIQUE (marathon_id, user_id)
+);
+
+CREATE TABLE microposts(
+  id SERIAL PRIMARY KEY ,
+  user_id INTEGER NOT NULL ,
+  content TEXT NOT NULL ,
+  created_at TIMESTAMP NOT NULL ,
+  upated_at TIMESTAMP ,
+  CONSTRAINT user_id_fk FOREIGN KEY (user_id) REFERENCES users(id)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE
 );

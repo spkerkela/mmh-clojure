@@ -12,28 +12,40 @@
   (-write [date out]
     (json/-write (str date) out)))
 
+(extend-type java.sql.Date
+  json/JSONWriter
+  (-write [date out]
+    (json/-write (str date) out)))
+
 (defroutes app-routes
-  (GET "/" [] (io/resource "public/index.html"))
-  (context "/movies" []
-    (GET "/" [] (json/write-str (db/get-movies)))
-    (GET "/:id{[0-9]+}" [id] (json/write-str (db/get-movie (Integer/parseInt id))))
-    (GET "/:id{[0-9]+}/reviews" [id] (json/write-str (db/reviews-of-movie (Integer/parseInt id))))
-    (POST "/:id{[0-9]+}" [id] (str "Create movie " id))
-    (PUT "/:id{[0-9]+}" [id] (str "Update movie " id))
-    (DELETE "/:id{[0-9]+}" [id] (str "Delete movie " id)))
-  (context "/users" []
-    (GET "/" [] (json/write-str (db/get-users)))
-    (GET "/:id{[0-9]+}" [id] (json/write-str (db/get-user (Integer/parseInt id))))
-    (GET "/:id{[0-9]+}/reviews" [id] (json/write-str (db/reviews-by-user (Integer/parseInt id))))
-    (POST "/:id{[0-9]+}" [id] (str "Create user " id))
-    (PUT "/:id{[0-9]+}" [id] (str "Update user " id))
-    (DELETE "/:id{[0-9]+}" [id] (str "Delete user " id)))
-  (context "/marathons" []
-    (GET "/" [] "All marathons")
-    (GET "/:id{[0-9]+}" [id] (str "Marathon " id))
-    (POST "/:id{[0-9]+}" [id] (str "Create marathon " id))
-    (PUT "/:id{[0-9]+}" [id] (str "Update marathon " id))
-    (DELETE "/:id{[0-9]+}" [id] (str "Delete marathon " id)))
+  (GET "/" [] (io/resource "public/views/index.html"))
+  (context "/json" []
+    (context "/movies" []
+      (GET "/" [] (json/write-str (db/get-movies)))
+      (GET "/:id{[0-9]+}" [id] (json/write-str (db/get-movie (Integer/parseInt id))))
+      (GET "/:id{[0-9]+}/reviews" [id] (json/write-str (db/reviews-of-movie (Integer/parseInt id))))
+      (POST "/:id{[0-9]+}" [id] (str "Create movie " id))
+      (PUT "/:id{[0-9]+}" [id] (str "Update movie " id))
+      (DELETE "/:id{[0-9]+}" [id] (str "Delete movie " id)))
+    (context "/users" []
+      (GET "/" [] (json/write-str (db/get-users)))
+      (GET "/:id{[0-9]+}" [id] (json/write-str (db/get-user (Integer/parseInt id))))
+      (GET "/:id{[0-9]+}/reviews" [id] (json/write-str (db/reviews-by-user (Integer/parseInt id))))
+      (POST "/:id{[0-9]+}" [id] (str "Create user " id))
+      (PUT "/:id{[0-9]+}" [id] (str "Update user " id))
+      (DELETE "/:id{[0-9]+}" [id] (str "Delete user " id)))
+    (context "/marathons" []
+      (GET "/" [] (json/write-str (db/marathons)))
+      (GET "/:id{[0-9]+}" [id] (json/write-str (db/get-marathon (Integer/parseInt id))))
+      (POST "/:id{[0-9]+}" [id] (str "Create marathon " id))
+      (PUT "/:id{[0-9]+}" [id] (str "Update marathon " id))
+      (DELETE "/:id{[0-9]+}" [id] (str "Delete marathon " id)))
+    (context "/microposts" []
+      (GET "/" [] (json/write-str (db/marathons)))
+      (GET "/:id{[0-9]+}" [id] (json/write-str (db/get-marathon (Integer/parseInt id))))
+      (POST "/:id{[0-9]+}" [id] (str "Create micropost " id))
+      (PUT "/:id{[0-9]+}" [id] (str "Update micropost " id))
+      (DELETE "/:id{[0-9]+}" [id] (str "Delete micropost " id))))
   (route/resources "/")
   (route/not-found "Not Found"))
 

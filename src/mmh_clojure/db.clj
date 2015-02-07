@@ -10,6 +10,7 @@
 (defqueries "sql/users.sql")
 (defqueries "sql/reviews.sql")
 (defqueries "sql/marathons.sql")
+(defqueries "sql/microposts.sql")
 
 ;; -- User functions
 
@@ -92,8 +93,35 @@
 (defn marathons []
   (all-marathons @db-spec))
 
+(defn get-marathon [id]
+  (marathon-by-id @db-spec id))
+
 (defn users-in-marathon [marathon-id]
   (marathon-participants @db-spec marathon-id))
 
 (defn movies-in-marathon [marathon-id]
   (marathon-movies @db-spec marathon-id))
+
+;; -- Micropost functions
+
+(defn create-micropost [post]
+  (create-micropost! @db-spec
+    (:user_id post)
+    (:content post)))
+
+(defn microposts-by-user [user-id]
+  (microposts-by-user-id @db-spec user-id))
+
+(defn get-microposts []
+  (all-microposts @db-spec))
+
+(defn delete-micropost [id]
+  (delete-micropost! @db-spec id))
+
+(defn update-micropost [post]
+  (update-micropost! @db-spec
+    (:content post)
+    (:user_id post)))
+
+(defn get-microposts []
+  (all-microposts @db-spec))

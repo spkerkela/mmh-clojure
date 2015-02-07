@@ -13,3 +13,8 @@ SELECT * FROM users
 SELECT * FROM movies
   INNER JOIN marathon_movies
   ON movies.id = marathon_movies.movie_id AND marathon_id=:marathon_id;
+
+-- name: marathon-by-id
+-- Get a marathon by id
+SELECT * FROM marathons
+WHERE id=:id;
