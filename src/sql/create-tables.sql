@@ -80,3 +80,17 @@ CREATE TABLE microposts(
   ON DELETE CASCADE
   ON UPDATE CASCADE
 );
+
+CREATE TABLE relationships(
+  follower_id INTEGER NOT NULL ,
+  followed_id INTEGER NOT NULL ,
+  created_at TIMESTAMP NOT NULL ,
+  CONSTRAINT follower_fk FOREIGN KEY (follower_id) REFERENCES users(id)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE ,
+  CONSTRAINT followed_fk FOREIGN KEY (followed_id) REFERENCES users(id)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE ,
+  CONSTRAINT cant_follow_self CHECK (followed_id != follower_id),
+  CONSTRAINT follow_only_once UNIQUE (follower_id, followed_id)
+);

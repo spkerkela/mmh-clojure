@@ -11,6 +11,7 @@
 (defqueries "sql/reviews.sql")
 (defqueries "sql/marathons.sql")
 (defqueries "sql/microposts.sql")
+(defqueries "sql/relationships.sql")
 
 ;; -- User functions
 
@@ -90,11 +91,11 @@
 
 ;; -- Marathon functions
 
-(defn marathons []
+(defn get-marathons []
   (all-marathons @db-spec))
 
 (defn get-marathon [id]
-  (marathon-by-id @db-spec id))
+  (first (marathon-by-id @db-spec id)))
 
 (defn users-in-marathon [marathon-id]
   (marathon-participants @db-spec marathon-id))
@@ -123,5 +124,13 @@
     (:content post)
     (:user_id post)))
 
-(defn get-microposts []
-  (all-microposts @db-spec))
+(defn get-micropost [id]
+  (first (get-micropost-by-id @db-spec id)))
+
+;; -- Relationships
+
+(defn get-followers [id]
+  (followers-of @db-spec id))
+
+(defn get-followed-by [id]
+  (followed-by @db-spec id))

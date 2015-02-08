@@ -23,7 +23,13 @@ WHERE id=:id;
 -- name: microposts-by-user-id
 -- Get all microposts from the given user
 SELECT * FROM microposts
-WHERE user_id=:user_id;
+WHERE user_id=:user_id ORDER BY created_at DESC ;
+
+
+-- name: get-micropost-by-id
+-- Get a spesific micropost
+SELECT * FROM microposts
+WHERE id=:id;
 
 -- name: all-microposts
 -- Get all microposts
