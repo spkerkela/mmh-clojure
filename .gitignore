@@ -11,4 +11,4 @@ pom.xml.asc
 /.idea
 *.iml
 figwheel_server.log
-/resources/js/compiled
+resources/js/compiled
