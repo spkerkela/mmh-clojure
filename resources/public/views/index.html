@@ -2,14 +2,21 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/style.css" type="text/css"/>
     <title>Movie Marathon Helper</title>
 </head>
 <body>
-    <div id="content"></div>
+    <div id="app"></div>
     <script src="http://fb.me/react-0.12.2.js"></script>
     <script src="http://fb.me/JSXTransformer-0.12.2.js"></script>
-    <script type="text/jsx" src="../js/compiled/out/mmh.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+    <script src="../js/compiled/out/goog/base.js"></script>
+    <script src="../js/compiled/mmh.js"></script>
+    <script type="text/javascript">goog.require("mmh_client.core");</script>
+    <script type="text/javascript">
+        mmh_client.core.run();
+    </script>
 </body>
 </html>
