@@ -4,7 +4,7 @@ SELECT * from marathons;
 
 -- name: marathon-participants
 -- Get all users that are participating in the given marathon
-SELECT * FROM users
+SELECT id, username, email, last_login, users.created_at, updated_at  FROM users
   INNER JOIN marathon_participants
   ON users.id = marathon_participants.user_id AND marathon_id=:marathon_id;
 

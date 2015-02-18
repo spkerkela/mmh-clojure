@@ -14,12 +14,12 @@ WHERE follower_id=:follower_id AND followed_id=:followed_id;
 
 -- name: followers-of
 -- Followers of given user
-SELECT * FROM users
+SELECT id, username, email, last_login, users.created_at, updated_at  FROM users
 INNER JOIN relationships
 ON users.id = relationships.follower_id AND relationships.followed_id = :id;
 
 -- name: followed-by
 -- Users followed by given user
-SELECT * FROM users
+SELECT id, username, email, last_login, users.created_at, updated_at  FROM users
 INNER JOIN relationships
 ON users.id = relationships.followed_id AND relationships.follower_id = :id;

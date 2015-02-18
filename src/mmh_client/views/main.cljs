@@ -5,6 +5,10 @@
    [navbar]
    [:div.container [:div.jumbotron content]]])
 
+(defn landing-page []
+  [:div [:h1 "Movie Marathon Helper"]
+   [:p "Welcome to the Movie Marathon Helper!"]])
+
 (defn navbar []
   [:nav.navbar.navbar-default
    [:div.container-fluid

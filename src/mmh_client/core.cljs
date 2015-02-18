@@ -15,71 +15,86 @@
 (enable-console-print!)
 (secretary/set-config! :prefix "#")
 
-(defonce movie-state (atom {}))
-(defonce user-state (atom {}))
-(defonce marathon-state (atom {}))
-
-(defn load-movie-data []
-  (ajax/get-data "json/movies"
-    (fn [res]
-      (let [newstate (ajax/read res)]
-        (reset! movie-state newstate)))))
-
-(defn load-user-data []
-  (ajax/get-data "json/users/"
-    (fn [res]
-      (let [newstate (ajax/read res)]
-        (reset! user-state newstate)))))
-
-(defn load-marathon-data []
-  (ajax/get-data "json/marathons/"
-    (fn [res]
-      (let [newstate (ajax/read res)]
-        (reset! marathon-state newstate)))))
-
-(defn load-data []
-  (load-movie-data)
-  (load-user-data)
-  (load-marathon-data))
-
-;(js/setInterval foo 10000)
-
-(defn simple-component []
+(defn landing-component []
   [main-views/default-layout
-   [:div [:h1 "Movie Marathon Helper"]
-    [:p "Welcome to the Movie Marathon Helper!"]]])
+   [main-views/landing-page]])
 
 (defn movies-component []
-  [main-views/default-layout
-   [movie-views/movies-view movie-state]])
+  (let [movies-state (atom {})]
+    (ajax/get-data "json/movies"
+      (fn [res] (reset! movies-state (ajax/read res))))
+    [main-views/default-layout
+     [movie-views/movies-view movies-state]]))
+
+(defn movie-component [id]
+  (let [movie (atom {})]
+    (ajax/get-data (str "json/movies/" id)
+      (fn [res] (reset! movie (ajax/read res))))
+    (ajax/get-data (str "json/movies/" id "/reviews")
+      (fn [res] (swap! movie #(assoc % :reviews (ajax/read res)))))
+    [main-views/default-layout
+     [movie-views/movie-view movie]]))
 
 (defn users-component []
-  [main-views/default-layout
-   [user-views/users-view user-state]])
+  (let [users-state (atom {})]
+    (ajax/get-data "json/users/"
+      (fn [res] (reset! users-state (ajax/read res))))
+    [main-views/default-layout
+     [user-views/users-view users-state]]))
 
 (defn user-component [id]
-  (do (println id)
+  (let [user (atom {})]
+    (ajax/get-data (str "json/users/" id)
+      (fn [res] (reset! user (ajax/read res))))
+    (ajax/get-data (str "json/users/" id "/followers")
+      (fn [res] (swap! user #(assoc % :followers (ajax/read res)))))
+    (ajax/get-data (str "json/users/" id "/following")
+      (fn [res] (swap! user #(assoc % :following (ajax/read res)))))
     [main-views/default-layout
-     [movie-views/movies-view movie-state]]))
+     [user-views/user-view user]]))
 
 (defn marathons-component []
-  [main-views/default-layout
-   [marathon-views/marathons-view marathon-state]])
+  (let [marathons-state (atom {})]
+    (ajax/get-data "json/marathons/"
+      (fn [res]
+        (reset! marathons-state (ajax/read res))))
+    [main-views/default-layout
+     [marathon-views/marathons-view marathons-state]]))
 
-(secretary/defroute "/" []
-  (session/put! :current-page simple-component))
+(defn marathon-component [id]
+  (let [marathon-state (atom {})]
+    (ajax/get-data (str "json/marathons/" id)
+      (fn [res]
+        (reset! marathon-state (ajax/read res))))
+    (ajax/get-data (str "json/marathons/" id "/participants")
+      (fn [res]
+        (swap! marathon-state #(assoc % :participants (ajax/read res)))))
+    (ajax/get-data (str "json/marathons/" id "/movies")
+      (fn [res]
+        (swap! marathon-state #(assoc % :movies (ajax/read res)))))
+    [main-views/default-layout
+     [marathon-views/marathon-view marathon-state]]))
 
-(secretary/defroute "/movies" []
+(secretary/defroute home-path "/" []
+  (session/put! :current-page landing-component))
+
+(secretary/defroute movies-path "/movies" []
   (session/put! :current-page movies-component))
 
-(secretary/defroute "/users" []
+(secretary/defroute movie-path #"/movies/(\d+)" [id]
+  (session/put! :current-page #(movie-component id)))
+
+(secretary/defroute users-path "/users" []
   (session/put! :current-page users-component))
 
-(secretary/defroute #"/users/(\d+)" [id]
+(secretary/defroute user-path #"/users/(\d+)" [id]
   (session/put! :current-page #(user-component id)))
 
-(secretary/defroute "/marathons" []
+(secretary/defroute marathons-path "/marathons" []
   (session/put! :current-page marathons-component))
+
+(secretary/defroute marathon-path #"/marathons/(\d+)" [id]
+  (session/put! :current-page #(marathon-component id)))
 
 
 (defn current-page []
@@ -96,13 +111,9 @@
         (secretary/dispatch! (.-token event))))
     (.setEnabled true)))
 
-(defn ^:export init! []
-  (load-data)
+(defn init! []
   (hook-browser-navigation!)
   (render))
-
-(defn ^:export run []
-  (init!))
 
 (fw/start {:on-jsload (fn [] (render))})
 

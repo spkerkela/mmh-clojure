@@ -1,7 +1,19 @@
 (ns mmh_client.views.marathons)
 
+(defn marathon-view [marathon-state]
+  (let [marathon @marathon-state
+        movies (:movies marathon)
+        participants (:participants marathon)]
+    [:div [:h3 (:name marathon)]
+     [:p (:description marathon)]
+     [:p "Participants: " (count participants)]
+     [:p "Movies: " (count movies)]
+     [:ul.list-unstyled
+      (for [movie movies]
+        [:li {:key (:id movie)} (:title movie)])]]))
+
 (defn marathon-component [marathon]
-  [:div [:h3 [:a {:href (str "/json/marathons/" (:id marathon))} (:name marathon)]]
+  [:div [:h3 [:a {:href (str "#/marathons/" (:id marathon))} (:name marathon)]]
    [:p (:description marathon)]])
 
 (defn marathons-view [marathons-state]
