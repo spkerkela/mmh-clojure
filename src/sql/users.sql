@@ -21,7 +21,7 @@ WHERE id=:id;
 
 -- name: get-user-by-id
 -- Find user with the given id
-SELECT * FROM users
+SELECT id, username, email, last_login, created_at, updated_at FROM users
 WHERE id=:id;
 
 -- name: update-user!
