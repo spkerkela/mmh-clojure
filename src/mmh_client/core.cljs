@@ -27,13 +27,13 @@
      [movie-views/movies-view movies-state]]))
 
 (defn movie-component [id]
-  (let [movie (atom {})]
+  (let [movie-state (atom {})]
     (ajax/get-data (str "json/movies/" id)
-      (fn [res] (reset! movie (ajax/read res))))
+      (fn [res] (swap! movie-state #(assoc % :movie (ajax/read res)))))
     (ajax/get-data (str "json/movies/" id "/reviews")
-      (fn [res] (swap! movie #(assoc % :reviews (ajax/read res)))))
+      (fn [res] (swap! movie-state #(assoc % :reviews (ajax/read res)))))
     [main-views/default-layout
-     [movie-views/movie-view movie]]))
+     [movie-views/movie-view movie-state]]))
 
 (defn users-component []
   (let [users-state (atom {})]
@@ -43,15 +43,18 @@
      [user-views/users-view users-state]]))
 
 (defn user-component [id]
-  (let [user (atom {})]
-    (ajax/get-data (str "json/users/" id)
-      (fn [res] (reset! user (ajax/read res))))
-    (ajax/get-data (str "json/users/" id "/followers")
-      (fn [res] (swap! user #(assoc % :followers (ajax/read res)))))
-    (ajax/get-data (str "json/users/" id "/following")
-      (fn [res] (swap! user #(assoc % :following (ajax/read res)))))
+  (let [user-state (atom {})
+        user-url (str "json/users/" id)]
+    (ajax/get-data user-url
+      (fn [res] (swap! user-state #(assoc % :user (ajax/read res)))))
+    (ajax/get-data (str user-url "/followers")
+      (fn [res] (swap! user-state #(assoc % :followers (ajax/read res)))))
+    (ajax/get-data (str user-url "/following")
+      (fn [res] (swap! user-state #(assoc % :following (ajax/read res)))))
+    (ajax/get-data (str user-url "/microposts")
+      (fn [res] (swap! user-state #(assoc % :microposts (ajax/read res)))))
     [main-views/default-layout
-     [user-views/user-view user]]))
+     [user-views/user-view user-state]]))
 
 (defn marathons-component []
   (let [marathons-state (atom {})]
@@ -62,14 +65,15 @@
      [marathon-views/marathons-view marathons-state]]))
 
 (defn marathon-component [id]
-  (let [marathon-state (atom {})]
-    (ajax/get-data (str "json/marathons/" id)
+  (let [marathon-state (atom {})
+        marathon-url (str "json/marathons/" id)]
+    (ajax/get-data marathon-url
       (fn [res]
-        (reset! marathon-state (ajax/read res))))
-    (ajax/get-data (str "json/marathons/" id "/participants")
+        (swap! marathon-state #(assoc % :marathon (ajax/read res)))))
+    (ajax/get-data (str marathon-url "/participants")
       (fn [res]
         (swap! marathon-state #(assoc % :participants (ajax/read res)))))
-    (ajax/get-data (str "json/marathons/" id "/movies")
+    (ajax/get-data (str marathon-url "/movies")
       (fn [res]
         (swap! marathon-state #(assoc % :movies (ajax/read res)))))
     [main-views/default-layout

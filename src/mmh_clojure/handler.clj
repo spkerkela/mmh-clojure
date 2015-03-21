@@ -47,6 +47,7 @@
       (GET "/:id{[0-9]+}/reviews" [id] (json-resp (db/reviews-by-user (Integer/parseInt id))))
       (GET "/:id{[0-9]+}/followers" [id] (json-resp (db/get-followers (Integer/parseInt id))))
       (GET "/:id{[0-9]+}/following" [id] (json-resp (db/get-followed-by (Integer/parseInt id))))
+      (GET "/:id{[0-9]+}/microposts" [id] (json-resp (db/microposts-by-user (Integer/parseInt id))))
       (POST "/:id{[0-9]+}" [id] (str "Create user " id))
       (PUT "/:id{[0-9]+}" [id] (str "Update user " id))
       (DELETE "/:id{[0-9]+}" [id] (str "Delete user " id)))

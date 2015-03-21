@@ -11,6 +11,11 @@
       (let [xhr (.-target e)]
         (cb (.getResponseText xhr))))))
 
+(defn get-data-ext [url cb]
+  (XhrIo.send url
+    (fn [e]
+      (let [xhr (.-target e)]
+        (cb (.getResponseText xhr))))))
 
 (defn read [res]
   (t/read r res))
