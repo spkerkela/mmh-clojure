@@ -15,7 +15,7 @@
                  [cljs-ajax "0.3.9"]
                  [com.cognitect/transit-cljs "0.8.205"]
                  [com.cognitect/transit-clj "0.8.259"]
-                 [ring/ring-defaults "0.1.2"]
+                 [ring/ring-defaults "0.3.4"]
                  [secretary "1.2.1"]]
   :plugins [[lein-ring "0.8.13"]
             [lein-cljsbuild "1.0.4"]
