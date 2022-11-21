@@ -12,7 +12,7 @@
                  [reagent "0.5.0-alpha"]
                  [reagent-forms "0.4.3"]
                  [reagent-utils "0.1.2"]
-                 [cljs-ajax "0.3.9"]
+                 [cljs-ajax "0.8.4"]
                  [com.cognitect/transit-cljs "0.8.205"]
                  [com.cognitect/transit-clj "0.8.259"]
                  [ring/ring-defaults "0.1.2"]
