@@ -16,7 +16,7 @@
                  [com.cognitect/transit-cljs "0.8.205"]
                  [com.cognitect/transit-clj "0.8.259"]
                  [ring/ring-defaults "0.1.2"]
-                 [secretary "1.2.1"]]
+                 [secretary "1.2.3"]]
   :plugins [[lein-ring "0.8.13"]
             [lein-cljsbuild "1.0.4"]
             [lein-figwheel "0.2.3-SNAPSHOT"]]
