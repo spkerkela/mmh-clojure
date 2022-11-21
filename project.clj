@@ -6,7 +6,7 @@
                  [compojure "1.3.1"]
                  [yesql "0.4.0"]
                  [org.clojure/data.json "0.2.5"]
-                 [org.postgresql/postgresql "9.3-1102-jdbc41"]
+                 [org.postgresql/postgresql "9.4.1212.jre7"]
                  [org.clojure/clojurescript "0.0-2760"]
                  [figwheel "0.2.3-SNAPSHOT"]
                  [reagent "0.5.0-alpha"]
