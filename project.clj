@@ -8,7 +8,7 @@
                  [org.clojure/data.json "0.2.5"]
                  [org.postgresql/postgresql "9.3-1102-jdbc41"]
                  [org.clojure/clojurescript "0.0-2760"]
-                 [figwheel "0.2.3-SNAPSHOT"]
+                 [figwheel "0.5.20"]
                  [reagent "0.5.0-alpha"]
                  [reagent-forms "0.4.3"]
                  [reagent-utils "0.1.2"]
