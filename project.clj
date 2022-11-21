@@ -18,7 +18,7 @@
                  [ring/ring-defaults "0.1.2"]
                  [secretary "1.2.1"]]
   :plugins [[lein-ring "0.8.13"]
-            [lein-cljsbuild "1.0.4"]
+            [lein-cljsbuild "1.1.8"]
             [lein-figwheel "0.2.3-SNAPSHOT"]]
   :ring {:handler mmh-clojure.handler/app}
   :cljsbuild {
