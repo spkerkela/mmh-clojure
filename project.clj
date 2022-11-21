@@ -10,7 +10,7 @@
                  [org.clojure/clojurescript "0.0-2760"]
                  [figwheel "0.2.3-SNAPSHOT"]
                  [reagent "0.5.0-alpha"]
-                 [reagent-forms "0.4.3"]
+                 [reagent-forms "0.5.44"]
                  [reagent-utils "0.1.2"]
                  [cljs-ajax "0.3.9"]
                  [com.cognitect/transit-cljs "0.8.205"]
