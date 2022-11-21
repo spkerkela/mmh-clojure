@@ -14,7 +14,7 @@
                  [reagent-utils "0.1.2"]
                  [cljs-ajax "0.3.9"]
                  [com.cognitect/transit-cljs "0.8.205"]
-                 [com.cognitect/transit-clj "0.8.259"]
+                 [com.cognitect/transit-clj "1.0.329"]
                  [ring/ring-defaults "0.1.2"]
                  [secretary "1.2.1"]]
   :plugins [[lein-ring "0.8.13"]
