@@ -4,7 +4,7 @@
   :min-lein-version "2.0.0"
   :dependencies [[org.clojure/clojure "1.6.0"]
                  [compojure "1.3.1"]
-                 [yesql "0.4.0"]
+                 [yesql "0.5.3"]
                  [org.clojure/data.json "0.2.5"]
                  [org.postgresql/postgresql "9.3-1102-jdbc41"]
                  [org.clojure/clojurescript "0.0-2760"]
