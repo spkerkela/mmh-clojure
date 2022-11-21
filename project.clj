@@ -3,7 +3,7 @@
   :url "http://example.com/FIXME"
   :min-lein-version "2.0.0"
   :dependencies [[org.clojure/clojure "1.6.0"]
-                 [compojure "1.3.1"]
+                 [compojure "1.7.0"]
                  [yesql "0.4.0"]
                  [org.clojure/data.json "0.2.5"]
                  [org.postgresql/postgresql "9.3-1102-jdbc41"]
