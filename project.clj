@@ -7,7 +7,7 @@
                  [yesql "0.4.0"]
                  [org.clojure/data.json "0.2.5"]
                  [org.postgresql/postgresql "9.3-1102-jdbc41"]
-                 [org.clojure/clojurescript "0.0-2760"]
+                 [org.clojure/clojurescript "0.0-3308"]
                  [figwheel "0.2.3-SNAPSHOT"]
                  [reagent "0.5.0-alpha"]
                  [reagent-forms "0.4.3"]
