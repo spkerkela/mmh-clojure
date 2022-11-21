@@ -19,7 +19,7 @@
                  [secretary "1.2.1"]]
   :plugins [[lein-ring "0.8.13"]
             [lein-cljsbuild "1.0.4"]
-            [lein-figwheel "0.2.3-SNAPSHOT"]]
+            [lein-figwheel "0.5.20"]]
   :ring {:handler mmh-clojure.handler/app}
   :cljsbuild {
                :builds [{:id "mmh-build"
